@@ -10,9 +10,14 @@
  */
 
 export function UncontrolledCheckbox(props) {
+    const [value, setValue] = React.useState(props.initialValue)
     return (
         <React.Fragment>
-            <input type="checkbox" name={props.name} checked={props.initialValue} onChange={ ()=>{props.initialValue=false}} />
+            <input type="checkbox" name={props.name} value={props.name} checked={value} onChange={
+                () => {
+                    setValue(!value)
+                }
+            } />
             <label htmlFor={props.name}>{props.name}</label>
         </React.Fragment>
     )
@@ -39,5 +44,3 @@ export function CheckboxList(props) {
         })
     )
 }
-
-

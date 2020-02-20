@@ -30,8 +30,6 @@ export function MatchNombre(props) {
   );
 }
 
-// event.target.value == props.nombre ? console.log('classname change') : console.log(Boolean(event.target.value == props.nombre), event.target.value, props.nombre)
-
 /*
  * Componentes como este son usados a menudo para hacer validaciones de inputs
  * sin tener que hacer click en un botón. Por ejemplo, se podría hacer una validación
@@ -50,39 +48,19 @@ export function MatchNombre(props) {
  * Si hicieron todo bien, el input se pondrá rojo si no pasaron el tamaño mínimo de la contraseña.
  */
 
-
-
-export function PasswordInput(props) {
-  let data = { ...props }
-  data.isPassword = true
+ export function PasswordInput(props) {
   const [retainClass, setRemoveClass] = React.useState(true);
   return (
     <Input
       type="password"
       onChange={(e) => {
-        data.e = e.target.value
-        ValidationInput(data) ? setRemoveClass(false) : setRemoveClass(true)
+        props.minLength < e.target.value.length ? setRemoveClass(false) : setRemoveClass(true)
       }}
       className={retainClass ? ' input-match' : ''}
     />
   );
 }
 
-
-/*
-export function PasswordInput(props) {
-  const [retainClass, setRemoveClass] = React.useState(true);
-  return (
-   <input
-      type="password"
-      onChange={(e) => {
-        (props.length < e.target.value.length) ? setRemoveClass(false) : setRemoveClass(true)
-      }}
-      className={retainClass ? 'input input-match' : 'input'}
-    />
-  );
-}
-*/
 /*
  * Estos componentes están bastante buenos, pero estamos repitiendo mucho código,
  * son prácticamente iguales salvo por un par de diferencias.
@@ -110,23 +88,14 @@ export function PasswordInput(props) {
  */
 
 export function ValidationInput(props) {
-  const isPassword = props.isPassword
-  const isMail = props.isMail
-
-  if (isPassword) {
-    if ((props.length < props.e.length) && !props.e.match(" ")) {
-      return true
-    } else {
-      return false
-    }
-  }
-  if(isMail){
-    const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    if(value.match(regEx) && !props.e.match(" ")){
-      return true
-    } else {
-      return false
-    }
-  }
+  const [value, setValue] = React.useState(true);
+  return (
+    <Input
+      onChange={(e) => {
+        props.validation(e.target.value) ? setValue(false) : setValue(true)
+      }}
+      className={value ? ' input-match' : ''}
+      type={props.isPassword ? "password" : "text"}
+    />
+  );
 }
-

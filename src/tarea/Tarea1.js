@@ -128,12 +128,13 @@ export function Tarjeta(props) {
 }
 
 export function BlogPost(props) {
-  const parrafos = props.parrafos.split('\n')
+  console.log(props)
+  const parrafos = props.article.parrafos.split('\n')
   return (
     <article className="post">
       <header className="post-header">
-        <h2 className="post-title">{props.titulo}</h2>
-        <Tarjeta {...autor}/>
+        <h2 className="post-title">{props.article.titulo}</h2>
+        <Tarjeta {...props.autor}/>
       </header>
         {parrafos.map((parrafo)=>(
           <p key={parrafo} className="post-paragraph"> {parrafo}</p>
@@ -141,22 +142,3 @@ export function BlogPost(props) {
     </article>
   );
 }
-class Autor {
-  constructor(nombre, titulo, imagen) {
-    this.nombre = nombre
-    this.titulo = titulo
-    this.imagen = imagen
-    this.articles = []
-  }
-  addArticle(article){
-    this.articles.push(article)
-  }
-} 
-
- const autor = new Autor(
-  "Julián Bovone", 
-  "Programador Full Stack Trainee",
-  "https://ca.slack-edge.com/TNG5KKB2P-UREJZAZ2R-63323c056cea-512"
-)
-
-
