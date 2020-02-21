@@ -55,7 +55,7 @@ function validation(input) {
 }
 
 
-ReactDOM.render(<ValidationInput isPassword={true} validation={validation}/>, document.querySelector('#react-app'));
+ReactDOM.render(<CheckboxListWithState items={items} />, document.querySelector('#react-app'));
 
 //tarea 1 <BlogPost {...article}/>
 

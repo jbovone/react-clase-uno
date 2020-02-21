@@ -36,17 +36,20 @@ export function ControlledCheckbox(props) {
  * }
  */
 
+
 export function CheckboxListWithState(props) {
+    const [values, setValue] = React.useState(props.items)
+    console.table(values)
     const names = Object.keys(props.items)
 
-    return (
-        names.map(name => {
-            const [value, setValue] = React.useState(props.items[name])
-            return <ControlledCheckbox key={name} name={name} value={value} onChange={() => {
-                setValue(!value)
-            }} />
-        })
-    )
+    const objects = names.map(name => {
+        return <ControlledCheckbox key={name} name={name} value={values[name]} onChange={() => {
+            let newValues = { ...values }
+            newValues[name] = !newValues[name]
+            setValue(newValues)
+        }} />
+    })
+    return [...objects]
 }
 
 /*
