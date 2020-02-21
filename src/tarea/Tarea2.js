@@ -1,3 +1,4 @@
+
 /*
  * Este componente debe renderizar un input que cambie de clase cuando contiene tu nombre.
  * Recibirá una prop: nombre (un string con tu nombre).
@@ -12,7 +13,22 @@
  * Para obtener el valor del input en el event handler, deberán usar la propiedad `event.target.value`.
  */
 
-export function MatchNombre(props) {}
+function Input(props) {
+  return <input type={props.type} className={'input' + (props.className || '')} onChange={props.onChange} />;
+}
+
+export function MatchNombre(props) {
+  const nombre = props.name;
+  const [addClass, setClassName] = React.useState(false);
+  return (
+    <Input
+      onChange={(e) => {
+        (e.target.value === nombre) && setClassName(true)
+      }}
+      className={addClass ? ' input-match' : ''}
+    />
+  );
+}
 
 /*
  * Componentes como este son usados a menudo para hacer validaciones de inputs
@@ -32,7 +48,18 @@ export function MatchNombre(props) {}
  * Si hicieron todo bien, el input se pondrá rojo si no pasaron el tamaño mínimo de la contraseña.
  */
 
-export function PasswordInput(props) {}
+ export function PasswordInput(props) {
+  const [retainClass, setRemoveClass] = React.useState(true);
+  return (
+    <Input
+      type="password"
+      onChange={(e) => {
+        props.minLength < e.target.value.length ? setRemoveClass(false) : setRemoveClass(true)
+      }}
+      className={retainClass ? ' input-match' : ''}
+    />
+  );
+}
 
 /*
  * Estos componentes están bastante buenos, pero estamos repitiendo mucho código,
@@ -60,4 +87,15 @@ export function PasswordInput(props) {}
  * Si quieren, pueden agregar una prop extra "isPassword". Si es true el input deberá tener type="password".
  */
 
-export function ValidationInput(props) {}
+export function ValidationInput(props) {
+  const [value, setValue] = React.useState(true);
+  return (
+    <Input
+      onChange={(e) => {
+        props.validation(e.target.value) ? setValue(false) : setValue(true)
+      }}
+      className={value ? ' input-match' : ''}
+      type={props.isPassword ? "password" : "text"}
+    />
+  );
+}
